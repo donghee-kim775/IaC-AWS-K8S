@@ -4,4 +4,4 @@ zip/
 
 # terraform dir 관련
 terraformcode/.terraformcode
-terraformcode/.terrafrom/terraform.tfstate
+terraformcode/terraform.tfstate
