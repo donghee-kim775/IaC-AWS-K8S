@@ -20,3 +20,9 @@ resource "aws_route_table" "k8s_rt" {
         Name = "K8S_RT"
     }
 }
+
+# Public Subnet과 route table 연결
+resource "aws_route_table_association" "k8s_rt_public_subnet_1" {
+    subnet_id = aws_subnet.public_subnet_1.id
+    route_table_id = aws_route_table.k8s_rt.id
+}
