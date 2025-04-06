@@ -1,8 +1,3 @@
-# AWS Provider 설정
-provider "aws" {
-    region = "ap-northeast-2" # Region 설정
-}
-
 # VPC 생성
 resource "aws_vpc" "k8s_vpc" {
     cidr_block = "10.0.0.0/16"
@@ -14,7 +9,7 @@ resource "aws_vpc" "k8s_vpc" {
     }
 }
 
-# Subnet 생성 : MasterNode - Public Subnet
+# Subnet 생성 : BastionHost
 resource "aws_subnet" "public_subnet_1" {
     vpc_id = aws_vpc.k8s_vpc.id
     cidr_block = "10.0.1.0/24"
@@ -26,7 +21,7 @@ resource "aws_subnet" "public_subnet_1" {
     }
 }
 
-# Subnet 생성 : WorkerNode1 - Private Subnet
+# Subnet 생성 : MasterNode & WorkerNode1 - Private Subnet
 resource "aws_subnet" "private_subnet_1" {
     vpc_id = aws_vpc.k8s_vpc.id
     cidr_block = "10.0.2.0/24"
