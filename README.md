@@ -1,6 +1,9 @@
 # Install K8S in AWS with Terraform
 | Terraform과 .sh 파일들을 통해 AWS위 K8S 구축 자동화 극대화
 이후, K8S 위에서 다양한 실습을 하고자한다.
+---
+### Architecture
+![image.png](attachment:51005530-383b-4780-9947-546fbd919286:image.png)
 
 ---
 ### Manual - 작성 중
@@ -10,12 +13,19 @@
 ### .env 설정
 ```
 # 공백이 있으면 안됨...!
-AWS_ACCESS_KEY_ID=""
-AWS_SECRET_ACCESS_KEY=""
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
 
 # AWS INFRA
-# AWS CLI => VPC_ID (ps. Values는 지은이가 k8svpc.tf에서 VPC tags name을 "K8S-VPC"로 주었음..!)
 VPC_ID=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=K8S-VPC" --query "Vpcs[0].VpcId" --output text --region ap-northeast-2 || echo "None")
+
+# Key Path
+basic_key="/home/donghee/work/ec2k8s/terraformcode/key"
+cluster_key=${basic_key}/cluster-key.pem
+bastion_key=${basic_key}/bastion-key.pem
+
+# Bastion Host IP
+Bastion_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=BastionHost" --query "Reservations[].Instances[].PublicIpAddress" --output text)
 
 # Testing EnvVariable
 testing="A"
