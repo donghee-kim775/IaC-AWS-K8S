@@ -2,8 +2,16 @@
 aws/
 zip/
 
+masternode.sh
+
 # terraform dir 관련
 terraformcode/terraform.tfstate
 terraformcode/terraform.tfstate.backup
 **/.terraform/
 terraformcode/key
+
+# install k8s 관련
+install_k8s/kubespray
+install_k8s/05_extra_setup_k8s.sh
+install_k8s/testing.sh
+install_k8s/venv

@@ -47,6 +47,10 @@ resource "aws_security_group" "bastion_sg" {
         protocol = -1 # 모든 프로토콜
         cidr_blocks = ["0.0.0.0/0"]
     }
+
+    tags = {
+        Name = "K8S-BASTION-SG"
+    }
 }
 
 #########################

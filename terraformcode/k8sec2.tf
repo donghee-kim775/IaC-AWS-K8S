@@ -18,34 +18,6 @@ resource "local_file" "k8s_cluster_private_key" {
   file_permission = "0600"
 }
 
-################
-# 보안 그룹 생성 #
-################
-resource "aws_security_group" "k8s_node_sg" {
-  name        = "k8s-node-sg"
-  description = "Allow SSH from bastion only"
-  vpc_id      = aws_vpc.k8s_vpc.id
-
-  ingress {
-    description     = "SSH from bastion"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = [aws_security_group.bastion_sg.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "K8S-Node-SG"
-  }
-}
-
 #########################
 # K8S instance 생성 #
 #########################
@@ -55,7 +27,7 @@ resource "aws_instance" "k8s_master_node" {
     instance_type = "t2.medium"
     subnet_id     = aws_subnet.private_subnet_1.id
     key_name      = aws_key_pair.k8s_cluster_key.key_name
-    vpc_security_group_ids = [aws_security_group.k8s_node_sg.id]
+    vpc_security_group_ids = [aws_security_group.k8s_master_sg.id]
     private_ip = "10.0.2.10"
     tags = {
         Name = "K8S-MasterNode"
@@ -63,3 +35,40 @@ resource "aws_instance" "k8s_master_node" {
 }
 
 # WorkerNode1 EC2
+resource "aws_instance" "k8s_worker_node_1" {
+    ami = "ami-0c9c942bd7bf113a2"
+    instance_type = "t2.medium"
+    subnet_id     = aws_subnet.private_subnet_1.id
+    key_name      = aws_key_pair.k8s_cluster_key.key_name
+    vpc_security_group_ids = [aws_security_group.k8s_worker_sg.id]
+    private_ip = "10.0.2.11"
+    tags = {
+        Name = "K8S-WORKERNODE1"
+    }
+}
+
+# WorkerNode2 EC2
+resource "aws_instance" "k8s_worker_node_2" {
+    ami = "ami-0c9c942bd7bf113a2"
+    instance_type = "t2.medium"
+    subnet_id     = aws_subnet.private_subnet_2.id
+    key_name      = aws_key_pair.k8s_cluster_key.key_name
+    vpc_security_group_ids = [aws_security_group.k8s_worker_sg.id]
+    private_ip = "10.0.3.11"
+    tags = {
+        Name = "K8S-WORKERNODE2"
+    }
+}
+
+# WorkerNode3 EC2
+resource "aws_instance" "k8s_worker_node_3" {
+    ami = "ami-0c9c942bd7bf113a2"
+    instance_type = "t2.medium"
+    subnet_id     = aws_subnet.private_subnet_3.id
+    key_name      = aws_key_pair.k8s_cluster_key.key_name
+    vpc_security_group_ids = [aws_security_group.k8s_worker_sg.id]
+    private_ip = "10.0.4.11"
+    tags = {
+        Name = "K8S-WORKERNODE3"
+    }
+}
