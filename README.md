@@ -3,7 +3,7 @@
 이후, K8S 위에서 다양한 실습을 하고자한다.
 ---
 ### Architecture
-![image.png](attachment:51005530-383b-4780-9947-546fbd919286:image.png)
+![image.png](./kubesrpay%20architecture.png)
 
 ---
 ### Manual - 작성 중
